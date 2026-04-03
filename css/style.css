@@ -34,8 +34,6 @@ main {
     margin: 0 auto;
     padding: 20px;
     box-sizing: border-box;
-    animation: gradientAnimation 30s ease infinite;
-    background-size: 400% 400%;
 }
 
 /* 服务导航区域 */
@@ -83,9 +81,7 @@ h2 {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     transition: all 0.2s ease;
-    animation: fadeIn 1s ease-in-out;
     border: 1px solid #e0e0e0;
-    /* 新增卡片加载时的缩放动画 */
     animation: cardScale 0.5s ease-out;
 }
 
@@ -157,13 +153,6 @@ h2 {
     min-width: 0;  /* 允许缩小 */
 }
 
-/* 调整登录按钮宽度 */
-.login-btn {
-    width: auto;  /* 改为自动宽度 */
-    min-width: 100px;  /* 设置最小宽度 */
-    flex-shrink: 0;  /* 禁止缩小 */
-}
-
 .form-group input {
     width: 90%;
     padding: 0.5rem 1rem;
@@ -184,11 +173,17 @@ h2 {
     font-weight: bold;
     padding: 0.5rem 1rem;
     border-radius: 0.375rem;
+    border: none;
     transition: background-color 0.2s;
+    cursor: pointer;
 }
 
 .login-btn:hover {
     background-color: #16a34a;
+}
+
+.login-btn:active {
+    background-color: #15803d;
 }
 
 .message {
@@ -226,6 +221,9 @@ h2 {
     padding: 0.25rem 0.75rem;
     border-radius: 0.375rem;
     font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .logout-btn:hover {
@@ -314,4 +312,30 @@ h2 {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* 屏幕阅读器专用类 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* 屏幕阅读器专用类 */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
 }

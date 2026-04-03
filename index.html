@@ -21,24 +21,26 @@
                 <form ng-submit="login($event)">
                     <div class="form-container">
                         <div class="form-group">
-                            <input type="email" id="email" ng-model="username" placeholder="邮箱" autocomplete="off" required>
+                            <label for="email" class="sr-only">邮箱地址</label>
+                            <input type="email" id="email" ng-model="username" placeholder="邮箱" autocomplete="email" required aria-label="邮箱">
                         </div>
                         <div class="form-group">
-                            <input type="password" id="password" ng-model="password" placeholder="密码" autocomplete="off" required>
+                            <label for="password" class="sr-only">密码</label>
+                            <input type="password" id="password" ng-model="password" placeholder="密码" autocomplete="current-password" required aria-label="密码">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="login-btn">登录</button>
+                            <button type="submit" class="login-btn" aria-label="登录按颁">登录</button>
                         </div>
                     </div>
                 </form>
-                <div class="message" ng-show="message">{{message}}</div>
+                <div class="message" ng-show="message" role="alert" aria-live="polite">{{message}}</div>
             </div>
 
             <!-- 个人书签区域 -->
             <div id="bookmarks" ng-show="isLoggedIn">
                 <div class="bookmark-header">
                     <h2>个人书签</h2>
-                    <button ng-click="logout()" class="logout-btn">退出登录</button>
+                    <button type="button" ng-click="logout()" class="logout-btn" aria-label="退出主账户">退出登录</button>
                 </div>
                 <div id="bookmarkList">
                     <div class="bookmark" ng-repeat="bookmark in bookmarks">
@@ -56,7 +58,7 @@
             <div class="grid">
                 <!-- VPS 服务 -->
                 <div class="card">
-                    <a href="https://vps.111600.xyz/">
+                    <a href="https://vps.111600.xyz/" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">服务器探针</div>
                             <div class="card-desc">实时监控服务器状态与性能指标</div>
@@ -66,7 +68,7 @@
 
                 <!-- 社区论坛 -->
                 <div class="card">
-                    <a href="https://www.nodeseek.com/">
+                    <a href="https://www.nodeseek.com/" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">技术社区</div>
                             <div class="card-desc">NodeSeek 交流论坛</div>
@@ -76,7 +78,7 @@
 
                 <!-- 搬瓦工 -->
                 <div class="card">
-                    <a href="https://bwh81.net/clientarea.php">
+                    <a href="https://bwh81.net/clientarea.php" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">搬瓦工控制台</div>
                             <div class="card-desc">服务器管理</div>
@@ -86,7 +88,7 @@
 
                 <!-- Massive Grid -->
                 <div class="card">
-                    <a href="https://portal.massivegrid.com/clientarea.php">
+                    <a href="https://portal.massivegrid.com/clientarea.php" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">Massive Grid</div>
                             <div class="card-desc">UK VPS</div>
@@ -96,7 +98,7 @@
 
                 <!-- RackNerd 客户区域 -->
                 <div class="card">
-                    <a href="https://my.racknerd.com/index.php?rp=/login">
+                    <a href="https://my.racknerd.com/index.php?rp=/login" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">RackNerd 客户区域</div>
                             <div class="card-desc">登录账户</div>
@@ -106,7 +108,7 @@
 
                 <!-- RackNerd 控制台 -->
                 <div class="card">
-                    <a href="https://nerdvm.racknerd.com/login.php">
+                    <a href="https://nerdvm.racknerd.com/login.php" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">RackNerd 控制台</div>
                             <div class="card-desc">服务器管理</div>
@@ -116,7 +118,7 @@
 
                 <!-- AllHost -->
                 <div class="card">
-                    <a href="https://portal.allhost.io/client/services">
+                    <a href="https://portal.allhost.io/client/services" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">AllHost</div>
                             <div class="card-desc">UK 15英镑</div>
@@ -126,7 +128,7 @@
 
                 <!-- ProtonMail -->
                 <div class="card">
-                    <a href="https://proton.me">
+                    <a href="https://proton.me" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">ProtonMail</div>
                             <div class="card-desc">端到端加密邮件服务</div>
@@ -136,7 +138,7 @@
 
                 <!-- Cloudflare -->
                 <div class="card">
-                    <a href="https://cloudflare.com">
+                    <a href="https://cloudflare.com" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">Cloudflare</div>
                             <div class="card-desc">加速、安全与性能优化服务</div>
@@ -146,7 +148,7 @@
 
                 <!-- ITDog -->
                 <div class="card">
-                    <a href="https://www.itdog.cn">
+                    <a href="https://www.itdog.cn" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">ITDog</div>
                             <div class="card-desc">IP 测试</div>
@@ -156,7 +158,7 @@
 
                 <!-- Vultr 控制面板 -->
                 <div class="card">
-                    <a href="https://my.vultr.com">
+                    <a href="https://my.vultr.com" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">Vultr 控制面板</div>
                             <div class="card-desc">管理云服务器</div>
@@ -166,7 +168,7 @@
 
                 <!-- Tunnel Broker -->
                 <div class="card">
-                    <a href="https://tunnelbroker.net/">
+                    <a href="https://tunnelbroker.net/" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">Tunnel Broker</div>
                             <div class="card-desc">IPv6 隧道服务提供商</div>
@@ -176,7 +178,7 @@
 
                 <!-- 网络资源 -->
                 <div class="card">
-                    <a href="http://www.yishimei.cn/network/319.html">
+                    <a href="http://www.yishimei.cn/network/319.html" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">网络资源</div>
                             <div class="card-desc">激活工具与教程</div>
@@ -186,7 +188,7 @@
 
                 <!-- Akile IO 服务器 -->
                 <div class="card">
-                    <a href="https://akile.io/console/server">
+                    <a href="https://akile.io/console/server" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">Akile IO 服务器管理</div>
                             <div class="card-desc">Akile VPS</div>
@@ -196,7 +198,7 @@
 
                 <!-- MHYIDC -->
                 <div class="card">
-                    <a href="https://mhyidc.com">
+                    <a href="https://mhyidc.com" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">MHYIDC</div>
                             <div class="card-desc">香港 IPv6</div>
@@ -206,7 +208,7 @@
 
                 <!-- CloudCone VPS -->
                 <div class="card">
-                    <a href="https://app.cloudcone.com/vps">
+                    <a href="https://app.cloudcone.com/vps" rel="noopener noreferrer">
                         <div class="card-content">
                             <div class="card-title">CloudCone VPS</div>
                             <div class="card-desc">CC VPS 服务</div>

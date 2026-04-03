@@ -43,17 +43,21 @@ app.controller('AuthController', [
     $scope.bookmarks = [];
     $scope.username = localStorage.getItem('rememberedEmail') || ''; // 读取存储的邮箱
 
-    // 添加：检查会话状态
+    // 检查会话状态
     async function checkSession() {
       try {
         const { data: { user }, error } = await AuthService.getUser();
+        if (error) {
+          throw new Error(error.message || '会话检查失败');
+        }
         if (user) {
           $scope.isLoggedIn = true;
-          const { data: bookmarks } = await BookmarkService.getBookmarks(user.id);
+          const { data: bookmarks, error: bookmarkError } = await BookmarkService.getBookmarks(user.id);
+          if (bookmarkError) throw new Error(bookmarkError.message || '书签加载失败');
           $scope.bookmarks = bookmarks || [];
         }
       } catch (error) {
-        console.error('Session check error:', error);
+        // 错误已捕获，继续执行
       } finally {
         $scope.sessionChecked = true;
         $scope.$apply();
@@ -62,105 +66,63 @@ app.controller('AuthController', [
 
     // 页面加载时检查会话
     checkSession();
+    
+    // 初始化时清除错误消息
+    $scope.message = '';
 
-    // 添加：退出登录方法
+    // 退出登录方法
     $scope.logout = async function() {
       try {
         await AuthService.logout();
-        $scope.isLoggedIn = false;
-        $scope.bookmarks = [];
-        localStorage.removeItem('userId');
-        // 退出登录时不删除邮箱
-        $scope.$apply();
+        $scope.$apply(() => {
+          $scope.isLoggedIn = false;
+          $scope.bookmarks = [];
+          $scope.message = '';
+        });
       } catch (error) {
-        console.error('Logout error:', error);
+        // 错误已捕获，继续执行
       }
     };
 
-    // 统一登录方法
-    // 修改登录方法，添加会话过期时间
-    // 可以在登录前添加表单验证
+    // 登录方法
     $scope.login = async function(event) {
       if (event) event.preventDefault();
       if (!$scope.username || !$scope.password) {
         return $scope.message = '请输入邮箱和密码';
       }
       try {
-        const { data, error } = await AuthService.login(
-          $scope.username,
-          $scope.password
-        );
+        const { data, error } = await AuthService.login($scope.username, $scope.password);
+        if (error) throw new Error(error.message || '登录失败');
     
-        if (error) throw error;
-    
-        // 不存储用户ID到localStorage
-        // 设置会话过期时间（例如1小时）
-        const expiresAt = Date.now() + 3600000; // 1小时后过期
-        
-        // 调试日志：检查用户 ID
-        console.log('User ID:', data.user.id);
-    
+        const expiresAt = Date.now() + 3600000; // 会话过期时间：1小时
         const { data: bookmarks, error: bookmarkError } = await BookmarkService.getBookmarks(data.user.id);
-    
-        // 调试日志：检查书签数据
-        console.log('Bookmarks fetched from Supabase:', bookmarks);
-    
-        if (bookmarkError) throw bookmarkError;
+        if (bookmarkError) throw new Error(bookmarkError.message || '书签加载失败');
 
-        localStorage.setItem('rememberedEmail', $scope.username); // 存储邮箱
+        localStorage.setItem('rememberedEmail', $scope.username);
     
         $scope.$apply(() => {
           $scope.bookmarks = bookmarks || [];
-          console.log('Bookmarks assigned to $scope:', $scope.bookmarks);
           $scope.isLoggedIn = true;
-          $scope.isRegister = false;
-          $scope.sessionExpiresAt = expiresAt; // 存储过期时间
+          $scope.sessionExpiresAt = expiresAt;
+          $scope.message = '';
         });
-      } 
-      catch (error) {
-        $scope.$apply(() => {
-          $scope.message = error.message;
-          console.error('Error during login or fetching bookmarks:', error);
-        });
-      }
-    };
-    
-    // 添加会话过期检查
-    // 可以添加心跳检测或定时检查会话状态
-    setInterval(() => {
-      if($scope.isLoggedIn) checkSession();
-    }, 300000); // 每5分钟检查一次
-    async function checkSession() {
-      try {
-        const { data: { user }, error } = await AuthService.getUser();
-        if (user && $scope.sessionExpiresAt && Date.now() < $scope.sessionExpiresAt) {
-          $scope.isLoggedIn = true;
-          const { data: bookmarks } = await BookmarkService.getBookmarks(user.id);
-          $scope.bookmarks = bookmarks || [];
-        } else {
-          await AuthService.logout();
-          $scope.isLoggedIn = false;
-          $scope.bookmarks = [];
-        }
       } catch (error) {
-        console.error('Session check error:', error);
-      } finally {
-        $scope.sessionChecked = true;
-        $scope.$apply();
+        $scope.$apply(() => {
+          $scope.message = error.message || '登录失败';
+        });
       }
-    }
-
-    $scope.showRegister = function() {
-        $scope.isRegister = true;
-        $scope.message = '';
     };
     
-    $scope.loginWith = function(provider) {
-        supabaseClient.auth.signInWithOAuth({ provider })
-            .then(({ error }) => {
-                if (error) $scope.message = error.message;
-                $scope.$apply();
-            });
-    };
+    // 定期检查会话状态（每5分钟）
+    const sessionCheckInterval = setInterval(() => {
+      if ($scope.isLoggedIn) {
+        checkSession();
+      }
+    }, 300000);
+
+    // 注销 interval，防止内存泄漏
+    $scope.$on('$destroy', () => {
+      if (sessionCheckInterval) clearInterval(sessionCheckInterval);
+    });
   }
 ]);
