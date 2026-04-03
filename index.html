@@ -44,9 +44,28 @@
                     <h2>个人书签</h2>
                     <button type="button" ng-click="logout()" class="logout-btn" aria-label="登出账户">退出登录</button>
                 </div>
+
+                <form ng-submit="addBookmark($event)" class="bookmark-form" aria-label="添加书签表单">
+                    <input type="text" ng-model="newBookmark.title" placeholder="书签名称" required aria-label="书签名称">
+                    <input type="url" ng-model="newBookmark.url" placeholder="URL (含http/https)" required aria-label="书签链接">
+                    <button type="submit">添加</button>
+                </form>
+
+                <div class="message" ng-show="bookmarkMessage" role="status" aria-live="polite">{{bookmarkMessage}}</div>
+
                 <div id="bookmarkList">
                     <div class="bookmark" ng-repeat="bookmark in bookmarks track by bookmark.id">
-                        <a ng-href="{{bookmark.url}}" target="_blank" rel="noopener noreferrer" ng-bind="bookmark.title">示例书签</a>
+                        <div ng-if="!bookmark.editing" class="bookmark-view">
+                            <a ng-href="{{bookmark.url}}" target="_blank" rel="noopener noreferrer" ng-bind="bookmark.title"></a>
+                            <button type="button" ng-click="startEdit(bookmark)">编辑</button>
+                            <button type="button" ng-click="deleteBookmark(bookmark)">删除</button>
+                        </div>
+                        <div ng-if="bookmark.editing" class="bookmark-edit">
+                            <input type="text" ng-model="bookmark.editTitle" placeholder="书签名称" required aria-label="编辑书签名称">
+                            <input type="url" ng-model="bookmark.editUrl" placeholder="URL (含http/https)" required aria-label="编辑书签链接">
+                            <button type="button" ng-click="updateBookmark(bookmark)">保存</button>
+                            <button type="button" ng-click="cancelEdit(bookmark)">取消</button>
+                        </div>
                     </div>
                     <div class="no-bookmarks" ng-if="bookmarks.length === 0">
                         暂无书签，请添加书签。
@@ -56,19 +75,47 @@
         </section>
 
         <!-- 公共服务导航 -->
-        <section class="services">
-            <div class="grid">
-                <!-- VPS 服务 -->
-                <div class="card">
-                    <a href="https://vps.111600.xyz/" rel="noopener noreferrer" target="_blank">
-                        <div class="card-content">
-                            <div class="card-title">服务器探针</div>
-                            <div class="card-desc">实时监控服务器状态与性能指标</div>
-                        </div>
-                    </a>
-                </div>
+        <section class="services" ng-init="initPublicServices()">
+            <div class="services-control">
+                <h2>公共服务导航（本地保存）</h2>
+                <div class="login-required" ng-if="!isLoggedIn">请先登录后才能修改公共服务导航。</div>
+                <form ng-submit="addPublicService($event)" class="service-form" aria-label="添加公共服务导航" ng-if="isLoggedIn">
+                    <input type="text" ng-model="newService.title" placeholder="服务名称" required aria-label="服务名称">
+                    <input type="url" ng-model="newService.url" placeholder="链接 (含 http/https)" required aria-label="服务链接">
+                    <input type="text" ng-model="newService.desc" placeholder="描述（可选）" aria-label="描述">
+                    <button type="submit">新增服务</button>
+                    <button type="button" ng-click="resetPublicServices()">恢复默认</button>
+                </form>
+                <div class="message" ng-show="serviceMessage" role="status" aria-live="polite">{{serviceMessage}}</div>
+            </div>
 
-                <!-- 社区论坛 -->
+            <div class="grid" id="servicesGrid">
+                <div class="card" ng-repeat="service in publicServices track by $index">
+                    <div ng-if="!service.editing" class="card-content">
+                        <a ng-href="{{service.url}}" rel="noopener noreferrer" target="_blank">
+                            <div class="card-title" ng-bind="service.title"></div>
+                            <div class="card-desc" ng-bind="service.desc"></div>
+                        </a>
+                        <div class="card-actions" ng-if="isLoggedIn">
+                            <button type="button" ng-click="startEditPublicService(service)">编辑</button>
+                            <button type="button" ng-click="deletePublicService(service)">删除</button>
+                        </div>
+                    </div>
+                    <div ng-if="service.editing" class="card-content">
+                        <input type="text" ng-model="service.editTitle" aria-label="编辑服务名称" required>
+                        <input type="url" ng-model="service.editUrl" aria-label="编辑服务链接" required>
+                        <input type="text" ng-model="service.editDesc" aria-label="编辑服务描述">
+                        <div class="card-actions">
+                            <button type="button" ng-click="updatePublicService(service)">保存</button>
+                            <button type="button" ng-click="cancelEditPublicService(service)">取消</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="no-bookmarks" ng-if="publicServices.length === 0">
+                    当前没有公共服务。请添加。
+                </div>
+            </div>
+        </section>
                 <div class="card">
                     <a href="https://www.nodeseek.com/" rel="noopener noreferrer">
                         <div class="card-content">
