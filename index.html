@@ -57,47 +57,20 @@
         </section>
 
         <!-- 公共服务导航 -->
-        <section class="services" ng-init="initPublicServices()">
-            <div class="services-control">
-                <h2>公共服务导航（本地保存）</h2>
-                <div class="login-required" ng-if="!isLoggedIn">请先登录后才能修改公共服务导航。</div>
-                <form ng-submit="addPublicService($event)" class="service-form" aria-label="添加公共服务导航" ng-if="isLoggedIn">
-                    <input type="text" ng-model="newService.title" placeholder="服务名称" required aria-label="服务名称">
-                    <input type="url" ng-model="newService.url" placeholder="链接 (含 http/https)" required aria-label="服务链接">
-                    <input type="text" ng-model="newService.desc" placeholder="描述（可选）" aria-label="描述">
-                    <button type="submit">新增服务</button>
-                    <button type="button" ng-click="resetPublicServices()">恢复默认</button>
-                </form>
-                <div class="message" ng-show="serviceMessage" role="status" aria-live="polite">{{serviceMessage}}</div>
-            </div>
+        <section class="services">
+            <h2>公共服务导航</h2>
+            <div class="grid">
+                <!-- VPS 服务 -->
+                <div class="card">
+                    <a href="https://vps.111600.xyz/" rel="noopener noreferrer" target="_blank">
+                        <div class="card-content">
+                            <div class="card-title">服务器探针</div>
+                            <div class="card-desc">实时监控服务器状态与性能指标</div>
+                        </div>
+                    </a>
+                </div>
 
-            <div class="grid" id="servicesGrid">
-                <div class="card" ng-repeat="service in publicServices track by $index">
-                    <div ng-if="!service.editing" class="card-content">
-                        <a ng-href="{{service.url}}" rel="noopener noreferrer" target="_blank">
-                            <div class="card-title" ng-bind="service.title"></div>
-                            <div class="card-desc" ng-bind="service.desc"></div>
-                        </a>
-                        <div class="card-actions" ng-if="isLoggedIn">
-                            <button type="button" ng-click="startEditPublicService(service)">编辑</button>
-                            <button type="button" ng-click="deletePublicService(service)">删除</button>
-                        </div>
-                    </div>
-                    <div ng-if="service.editing" class="card-content">
-                        <input type="text" ng-model="service.editTitle" aria-label="编辑服务名称" required>
-                        <input type="url" ng-model="service.editUrl" aria-label="编辑服务链接" required>
-                        <input type="text" ng-model="service.editDesc" aria-label="编辑服务描述">
-                        <div class="card-actions">
-                            <button type="button" ng-click="updatePublicService(service)">保存</button>
-                            <button type="button" ng-click="cancelEditPublicService(service)">取消</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="no-bookmarks" ng-if="publicServices.length === 0">
-                    当前没有公共服务。请添加。
-                </div>
-            </div>
-        </section>
+                <!-- 社区论坛 -->
                 <div class="card">
                     <a href="https://www.nodeseek.com/" rel="noopener noreferrer">
                         <div class="card-content">
