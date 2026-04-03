@@ -4,29 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>云服务导航中心</title>
-    <!-- 字体与样式 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- 引入 AngularJS 和 Supabase -->
-    <!-- 修改后的脚本加载部分 -->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2" defer></script>
     <script src="js/app.js?v=1.0" defer></script>
-    <!-- 确保在body标签添加ng-cloak -->
-    <body ng-cloak>
-    <h1>云服务导航</h1>    
-    <div class="container">
+</head>
+<body ng-cloak ng-app="bookmarkApp">
+    <main>
+        <h1>云服务导航</h1>
 
         <!-- 用户认证区域 -->
-        <div class="auth-section" ng-controller="AuthController">
+        <section class="auth-section" ng-controller="AuthController">
+            <!-- 登录表单 -->
             <div ng-show="!isLoggedIn && sessionChecked">
                 <form ng-submit="login($event)">
                     <div class="form-container">
-                        <div class="form-group">                       
+                        <div class="form-group">
                             <input type="email" id="email" ng-model="username" placeholder="邮箱" autocomplete="off" required>
                         </div>
-                        <div class="form-group">                      
+                        <div class="form-group">
                             <input type="password" id="password" ng-model="password" placeholder="密码" autocomplete="off" required>
                         </div>
                         <div class="form-group">
@@ -34,10 +31,11 @@
                         </div>
                     </div>
                 </form>
-                <div class="message" ng-cloak>{{message}}</div>
+                <div class="message" ng-show="message">{{message}}</div>
             </div>
 
-            <div id="bookmarks" ng-show="isLoggedIn" ng-cloak>
+            <!-- 个人书签区域 -->
+            <div id="bookmarks" ng-show="isLoggedIn">
                 <div class="bookmark-header">
                     <h2>个人书签</h2>
                     <button ng-click="logout()" class="logout-btn">退出登录</button>
@@ -51,177 +49,172 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <h2>   </h2>        
-        <!-- 公共书签 -->        
-        <div class="grid">
-            <!-- VPS服务 -->
-            <div class="card">
-                <a href="https://vps.111600.xyz/">
+        </section>
 
-                    <div class="card-content">
-                        <div class="card-title">服务器探针</div>
-                        <div class="card-desc">实时监控服务器状态与性能指标</div>
-                    </div>
-                </a>
+        <!-- 公共服务导航 -->
+        <section class="services">
+            <div class="grid">
+                <!-- VPS 服务 -->
+                <div class="card">
+                    <a href="https://vps.111600.xyz/">
+                        <div class="card-content">
+                            <div class="card-title">服务器探针</div>
+                            <div class="card-desc">实时监控服务器状态与性能指标</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 社区论坛 -->
+                <div class="card">
+                    <a href="https://www.nodeseek.com/">
+                        <div class="card-content">
+                            <div class="card-title">技术社区</div>
+                            <div class="card-desc">NodeSeek 交流论坛</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 搬瓦工 -->
+                <div class="card">
+                    <a href="https://bwh81.net/clientarea.php">
+                        <div class="card-content">
+                            <div class="card-title">搬瓦工控制台</div>
+                            <div class="card-desc">服务器管理</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Massive Grid -->
+                <div class="card">
+                    <a href="https://portal.massivegrid.com/clientarea.php">
+                        <div class="card-content">
+                            <div class="card-title">Massive Grid</div>
+                            <div class="card-desc">UK VPS</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- RackNerd 客户区域 -->
+                <div class="card">
+                    <a href="https://my.racknerd.com/index.php?rp=/login">
+                        <div class="card-content">
+                            <div class="card-title">RackNerd 客户区域</div>
+                            <div class="card-desc">登录账户</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- RackNerd 控制台 -->
+                <div class="card">
+                    <a href="https://nerdvm.racknerd.com/login.php">
+                        <div class="card-content">
+                            <div class="card-title">RackNerd 控制台</div>
+                            <div class="card-desc">服务器管理</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- AllHost -->
+                <div class="card">
+                    <a href="https://portal.allhost.io/client/services">
+                        <div class="card-content">
+                            <div class="card-title">AllHost</div>
+                            <div class="card-desc">UK 15英镑</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- ProtonMail -->
+                <div class="card">
+                    <a href="https://proton.me">
+                        <div class="card-content">
+                            <div class="card-title">ProtonMail</div>
+                            <div class="card-desc">端到端加密邮件服务</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Cloudflare -->
+                <div class="card">
+                    <a href="https://cloudflare.com">
+                        <div class="card-content">
+                            <div class="card-title">Cloudflare</div>
+                            <div class="card-desc">加速、安全与性能优化服务</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- ITDog -->
+                <div class="card">
+                    <a href="https://www.itdog.cn">
+                        <div class="card-content">
+                            <div class="card-title">ITDog</div>
+                            <div class="card-desc">IP 测试</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Vultr 控制面板 -->
+                <div class="card">
+                    <a href="https://my.vultr.com">
+                        <div class="card-content">
+                            <div class="card-title">Vultr 控制面板</div>
+                            <div class="card-desc">管理云服务器</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Tunnel Broker -->
+                <div class="card">
+                    <a href="https://tunnelbroker.net/">
+                        <div class="card-content">
+                            <div class="card-title">Tunnel Broker</div>
+                            <div class="card-desc">IPv6 隧道服务提供商</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- 网络资源 -->
+                <div class="card">
+                    <a href="http://www.yishimei.cn/network/319.html">
+                        <div class="card-content">
+                            <div class="card-title">网络资源</div>
+                            <div class="card-desc">激活工具与教程</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Akile IO 服务器 -->
+                <div class="card">
+                    <a href="https://akile.io/console/server">
+                        <div class="card-content">
+                            <div class="card-title">Akile IO 服务器管理</div>
+                            <div class="card-desc">Akile VPS</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- MHYIDC -->
+                <div class="card">
+                    <a href="https://mhyidc.com">
+                        <div class="card-content">
+                            <div class="card-title">MHYIDC</div>
+                            <div class="card-desc">香港 IPv6</div>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- CloudCone VPS -->
+                <div class="card">
+                    <a href="https://app.cloudcone.com/vps">
+                        <div class="card-content">
+                            <div class="card-title">CloudCone VPS</div>
+                            <div class="card-desc">CC VPS 服务</div>
+                        </div>
+                    </a>
+                </div>
             </div>
-
-            <!-- 社区论坛 -->
-            <div class="card">
-                <a href="https://www.nodeseek.com/">
-
-                    <div class="card-content">
-                        <div class="card-title">技术社区</div>
-                        <div class="card-desc">NodeSeek 交流论坛</div>
-                    </div>
-                </a>
-            </div>
-
-            <!-- VPS控制台 -->
-            <div class="card">
-                <a href="https://bwh81.net/clientarea.php">
- 
-                    <div class="card-content">
-                        <div class="card-title">搬瓦工控制台</div>
-                        <div class="card-desc">服务器管理</div>
-                    </div>
-                </a>
-            </div>
-
-     <div class="card">           
-     <a href="https://portal.massivegrid.com/clientarea.php?">
-        <div class="card-content">
-            <div class="card-title">Massive Grid</div>
-            <div class="card-desc">UK VPS</div>
-        </div>
-    </a>
-    </div>
-     <!-- 新增：RackNerd 客户区域 -->
-     <div class="card"> 
-         <a href="https://my.racknerd.com/index.php?rp=/login"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">RackNerd 客户区域</div> 
-                 <div class="card-desc">登录账户</div> 
-             </div> 
-         </a> 
-     </div>
-
-     <!-- 新增：RackNerd NVM 控制台 -->
-     <div class="card"> 
-         <a href="https://nerdvm.racknerd.com/login.php"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">RackNerd 控制台</div> 
-                 <div class="card-desc">服务器管理</div> 
-             </div> 
-         </a> 
-     </div>
-     <div class="card"> 
-         <a href="https://portal.allhost.io/client/services"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">allhost</div> 
-                 <div class="card-desc">UK 15英镑</div> 
-             </div> 
-         </a> 
-     </div>
-     <!-- 新增：ProtonMail -->
-     <div class="card"> 
-         <a href="https://proton.me"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">ProtonMail</div> 
-                 <div class="card-desc">端到端加密邮件服务</div> 
-             </div> 
-         </a> 
-     </div>
-
-     <!-- 新增：Cloudflare -->
-     <div class="card"> 
-         <a href="https://cloudflare.com"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">Cloudflare</div> 
-                 <div class="card-desc">加速、安全与性能优化服务</div> 
-             </div> 
-         </a> 
-     </div>
-
-     <!-- 新增：ITDog -->
-     <div class="card"> 
-         <a href="https://www.itdog.cn"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">ITDog</div> 
-                 <div class="card-desc">IP测试</div> 
-             </div> 
-         </a> 
-     </div>
-
-
-    <div class="card">
-    <a href="https://my.vultr.com">
-        <div class="card-content">
-            <div class="card-title">Vultr 控制面板</div>
-            <div class="card-desc">管理云服务器</div>
-        </div>
-    </a>
-</div>
-
-<div class="card">
-    <a href="https://tunnelbroker.net/">
-        <div class="card-content">
-            <div class="card-title">Tunnel Broker</div>
-            <div class="card-desc">IPv6 隧道服务提供商</div>
-        </div>
-    </a>
-</div>
-
-<div class="card">
-    <a href="http://www.yishimei.cn/network/319.html">
-        <div class="card-content">
-            <div class="card-title">网络资源</div>
-            <div class="card-desc">激活工具与教程</div>
-        </div>
-    </a>
-</div>
-        
-            <!-- 其他服务卡片...（保持相同结构） -->
-     <!-- 新增：Akile IO 服务器管理 -->
-     <div class="card"> 
-         <a href="https://akile.io/console/server"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">Akile IO 服务器管理</div> 
-                 <div class="card-desc">Akile vps</div> 
-             </div> 
-         </a> 
-     </div>
-
-     <!-- 新增：MHYIDC -->
-     <div class="card"> 
-         <a href="https://mhyidc.com"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">MHYIDC</div> 
-                 <div class="card-desc">香港ipv6</div> 
-             </div> 
-         </a> 
-     </div>
-       <!-- 新增：CloudCone VPS -->
-     <div class="card"> 
-         <a href="https://app.cloudcone.com/vps"> 
-
-             <div class="card-content"> 
-                 <div class="card-title">CloudCone VPS</div> 
-                 <div class="card-desc">CC VPS服务</div> 
-             </div> 
-         </a> 
-     </div>
-                      
-            
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>
