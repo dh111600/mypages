@@ -57,7 +57,10 @@ app.controller('AuthController', [
           $scope.bookmarks = bookmarks || [];
         }
       } catch (error) {
-        // 错误已捕获，继续执行
+        // 记录错误以便调试，生产环境可集成 Sentry 等日志服务
+        if (error && typeof error === 'object') {
+          console.debug('Session check error:', error.message || error);
+        }
       } finally {
         $scope.sessionChecked = true;
         $scope.$apply();
@@ -80,7 +83,12 @@ app.controller('AuthController', [
           $scope.message = '';
         });
       } catch (error) {
-        // 错误已捕获，继续执行
+        // 即使登出失败也清除本地状态
+        $scope.$apply(() => {
+          $scope.isLoggedIn = false;
+          $scope.bookmarks = [];
+          console.debug('Logout error (local state cleared):', error?.message);
+        });
       }
     };
 

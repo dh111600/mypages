@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="云服务导航中心 - 聚合常用服务和资源的快速访问平台">
+    <meta name="keywords" content="导航, 云服务, VPS, 书签管理">
     <title>云服务导航中心</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -29,7 +31,7 @@
                             <input type="password" id="password" ng-model="password" placeholder="密码" autocomplete="current-password" required aria-label="密码">
                         </div>
                         <div class="form-group">
-                            <button type="submit" class="login-btn" aria-label="登录按颁">登录</button>
+                            <button type="submit" class="login-btn" aria-label="登录按钮">登录</button>
                         </div>
                     </div>
                 </form>
@@ -40,11 +42,11 @@
             <div id="bookmarks" ng-show="isLoggedIn">
                 <div class="bookmark-header">
                     <h2>个人书签</h2>
-                    <button type="button" ng-click="logout()" class="logout-btn" aria-label="退出主账户">退出登录</button>
+                    <button type="button" ng-click="logout()" class="logout-btn" aria-label="登出账户">退出登录</button>
                 </div>
                 <div id="bookmarkList">
-                    <div class="bookmark" ng-repeat="bookmark in bookmarks">
-                        <a ng-href="{{bookmark.url}}" target="_blank" ng-bind="bookmark.title">示例书签</a>
+                    <div class="bookmark" ng-repeat="bookmark in bookmarks track by bookmark.id">
+                        <a ng-href="{{bookmark.url}}" target="_blank" rel="noopener noreferrer" ng-bind="bookmark.title">示例书签</a>
                     </div>
                     <div class="no-bookmarks" ng-if="bookmarks.length === 0">
                         暂无书签，请添加书签。
@@ -58,7 +60,7 @@
             <div class="grid">
                 <!-- VPS 服务 -->
                 <div class="card">
-                    <a href="https://vps.111600.xyz/" rel="noopener noreferrer">
+                    <a href="https://vps.111600.xyz/" rel="noopener noreferrer" target="_blank">
                         <div class="card-content">
                             <div class="card-title">服务器探针</div>
                             <div class="card-desc">实时监控服务器状态与性能指标</div>
